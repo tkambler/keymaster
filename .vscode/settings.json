@@ -1,0 +1,26 @@
+{
+  "typescript.tsc.autoDetect": "off",
+  "grunt.autoDetect": "off",
+  "jake.autoDetect": "off",
+  "gulp.autoDetect": "off",
+  "npm.autoDetect": "off",
+  "debug.toolBarLocation": "docked",
+  "search.exclude": {
+    "**/node_modules": true,
+  },
+  "files.exclude": {
+    "**/*.tar.gz": true,
+    "**/*.zip": true,
+    "**/*.js.map": true,
+    "**/*.jsx.map": true,
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/*?.js": {
+      "when": "$(basename).tsx"
+    },
+    "**/*.jsx": {
+      "when": "$(basename).tsx"
+    }
+  }
+}

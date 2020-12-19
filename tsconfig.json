@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "sourceMap": false,
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["DOM", "ES2015", "ES2016", "ES2017"],
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "node"
+    ],
+    "typeRoots": ["node_modules/@types", "types"],
+    "paths": {
+    }
+  },
+  "exclude": ["node_modules", "test"]
+}

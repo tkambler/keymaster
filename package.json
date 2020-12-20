@@ -4,7 +4,9 @@
   "description": "",
   "scripts": {
     "build": "npx tsc",
-    "build:watch": "npx tsc --watch"
+    "build:watch": "npx tsc --watch",
+    "start": "ts-node --prefer-ts-exts bin/keymaster",
+    "start:debug": "DEBUG=keymaster,keymaster:* ts-node --prefer-ts-exts bin/keymaster"
   },
   "bin": {
     "keymaster": "./bin/keymaster.js"
@@ -18,7 +20,13 @@
     "typescript": "4.1.3"
   },
   "dependencies": {
+    "blessed": "0.1.81",
+    "debug": "4.3.1",
+    "delay": "4.4.0",
     "eventemitter2": "6.4.3",
+    "execa": "5.0.0",
+    "fs-extra": "9.0.1",
+    "lodash": "4.17.20",
     "ssh-config": "4.0.4",
     "ssh2": "0.8.9",
     "untildify": "4.0.0"

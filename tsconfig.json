@@ -15,8 +15,7 @@
       "node"
     ],
     "typeRoots": ["node_modules/@types", "types"],
-    "paths": {
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "test"]
 }

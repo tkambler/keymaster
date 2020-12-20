@@ -348,17 +348,13 @@ export class Connection extends EventEmitter2 {
       username: connConfig.User || os.userInfo().username,
       privateKey: await (async () => {
         if (connConfig.IdentityFile.length) {
-          if (connConfig.IdentityFile.length > 1) {
-            throw new Error(`Connection to ${name} - I don't know what to do with more than one identity file: ${connConfig.IdentityFile.join(', ')}`);
-          } else {
-            let keyFile = connConfig.IdentityFile[0];
-            if (keyFile.includes('~')) {
-              keyFile = untildify(keyFile);
-            } else if (!path.isAbsolute(keyFile)) {
-              keyFile = path.resolve(os.homedir(), '.ssh', keyFile);
-            }
-            return fs.readFile(path.resolve(keyFile));
+          let keyFile = _.last(connConfig.IdentityFile);
+          if (keyFile.includes('~')) {
+            keyFile = untildify(keyFile);
+          } else if (!path.isAbsolute(keyFile)) {
+            keyFile = path.resolve(os.homedir(), '.ssh', keyFile);
           }
+          return fs.readFile(path.resolve(keyFile));
         } else {
           return fs.readFile(path.resolve(os.homedir(), '.ssh/id_rsa'));
         }

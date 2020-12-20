@@ -1,6 +1,6 @@
 {
   "name": "@tkambler/keymaster",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "A terminal utility for managing SSH tunnels",
   "scripts": {
     "build": "npx tsc",
@@ -11,6 +11,10 @@
   "bin": {
     "keymaster": "./bin/keymaster.js"
   },
+  "files": [
+    "bin/*.js",
+    "lib/*.js"
+  ],
   "preferGlobal": true,
   "author": "Tim Ambler <tkambler@gmail.com>",
   "license": "MIT",

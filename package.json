@@ -1,7 +1,7 @@
 {
-  "name": "keymaster",
+  "name": "@tkambler/keymaster",
   "version": "0.0.1",
-  "description": "",
+  "description": "A terminal utility for managing SSH tunnels",
   "scripts": {
     "build": "npx tsc",
     "build:watch": "npx tsc --watch",

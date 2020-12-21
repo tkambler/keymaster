@@ -34,14 +34,6 @@ Host jupiter
     IdentityFile ~/.ssh/flurp
     ProxyJump mars
     LocalForward 4000 127.0.0.1:4000
-
-# This host will not be presented by the UI, as we've set KeyMasterIgnore to yes.
-Host earth
-    HostName 192.168.1.14
-    User ubuntu
-    IdentityFile ~/.ssh/flurp
-    KeymasterIgnore yes
-    LocalForward 9000 127.0.0.1:80
 ```
 
 ## Show, Don't Tell

@@ -23,6 +23,7 @@ export class Keymaster extends EventEmitter2 {
    * Starts the application
    */
   public start() {
+    // this.activate('etrials-postgres-production');
     Object.defineProperties(this, {
       interface: {
         value: new Interface(this).start(),

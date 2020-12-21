@@ -25,7 +25,7 @@ Connections are made with the SSH binary that exists on the user's machine. The 
   },
   "hook": {
     // The (optional) path to a Node module to be run before each connection attempt. Useful if you need
-    // to periodically sign a key via [Vault](https://www.vaultproject.io/) (often seen in Enterprisey environments) or perform some other action.
+    // to periodically sign a key via Vault (often seen in Enterprisey environments) or perform some other action.
     "preconnect": "~/keymaster.js
   }
 }

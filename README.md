@@ -4,11 +4,28 @@
 
 > "I am the Keymaster! The Destructor is coming. Gozer the Traveler, the Destroyer."
 
-Keymaster is a terminal utility for managing SSH tunnels. It runs in the foreground and presents you with an interface with which you can interactively enable or disable SSH tunnels at will. If and when network errors occur, connections are automatically restored. Connections are managed with the help of the [ssh2](https://www.npmjs.com/package/ssh2) library. As a result, no local ssh or autossh binary is necessary. Keymaster has been confirmed to work on both MacOS and Windows.
+Keymaster is a terminal utility for managing SSH tunnels. It runs in the foreground and presents you with an interface with which you can interactively enable or disable SSH tunnels at will. If and when network errors occur, connections are automatically restored.
 
-Oh yeah, if your user has a `keymaster.js` file in their home directory, Keymaster will also run that before attempting to create tunnels. The ability to hook into the tunnel lifecycle in this way can be particulary helpful in some environments - e.g. if you're required to routinely re-sign a key (stored in [Vault](https://www.vaultproject.io/), perhaps?).
+[Secure Pipes](https://www.opoet.com/pyro/index.php) is an excellent, GUI-based tool that provides similar functionality for users of MacOS (such as myself). While I am a fan of this tool, I wanted something CLI-based that would work on both MacOS, Linux, and Windows. I also wanted a tool that did not require extra tunnel configuration apart from what is already in the user's `~/.ssh/config` file. Necessity is the mother of invention, so here we are.
 
-By default, Keymaster reads the SSH config file stored at `~/.ssh/config`:
+Connections are made with the SSH binary that exists on the user's machine. The path to this binary is configurable in a `~/keymaster.conf.json` file (shown below):
+
+```
+{
+  "ssh": {
+    // The default value for Macos: /usr/bin/ssh
+    // The default value for Windows: C:\Program Files\Git\usr\bin\ssh.exe
+    "path": "/usr/bin/ssh"
+  },
+  "hook": {
+    // The (optional) path to a Node module to be run before each connection attempt. Useful if you need
+    // to periodically sign a key via [Vault](https://www.vaultproject.io/) (often seen in Enterprisey environments) or perform some other action.
+    "preconnect": "~/keymaster.js
+  }
+}
+```
+
+Keymaster reads the SSH config file stored at `~/.ssh/config` (shown below). It will only display entries with one or more `LocalForward` parameters attached to them.
 
 ```
 # When this host is selected, port 5000 on the client will be forwarded to port 5000
@@ -39,6 +56,10 @@ Host jupiter
 ## Show, Don't Tell
 
 ![Keymaster](assets/keymaster.gif)
+
+## What Remains to be Done
+
+It would be nice of this utility didn't require that a local SSH binary exist on the user's machine. Efforts were made to facilitate this via the [ssh2](https://github.com/mscdex/ssh2) library, but it doesn't seem to [play well with SSH certificates](https://github.com/mscdex/ssh2/pull/808), which would make this tool a lot less useful for a lot of people. Hopefully this can be revisited at some point.
 
 ## Get Started
 

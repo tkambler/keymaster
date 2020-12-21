@@ -1,6 +1,7 @@
 import { Connection } from './connection';
 import { Interface } from './interface';
 import { EventEmitter2 } from 'eventemitter2';
+import { getGlobalConfig } from './config';
 
 /**
  * @class Keymaster
@@ -20,10 +21,15 @@ export class Keymaster extends EventEmitter2 {
   private interface: Interface;
 
   /**
+   * Global config
+   */
+  private config;
+
+  /**
    * Starts the application
    */
-  public start() {
-    // this.activate('etrials-postgres-production');
+  public async start() {
+    this.config = await getGlobalConfig();
     Object.defineProperties(this, {
       interface: {
         value: new Interface(this).start(),
@@ -80,7 +86,7 @@ export class Keymaster extends EventEmitter2 {
    */
   private createConnection(name: string) {
     this.emit('activating', name);
-    const conn = new Connection(name);
+    const conn = new Connection(name, this.config);
     conn.on('connection_message', ({ message, name }) => {
       this.emit('connection_message', {
         name,

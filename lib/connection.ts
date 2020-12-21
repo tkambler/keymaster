@@ -8,18 +8,11 @@ import { exists } from 'fs-extra';
 import Debug from 'debug';
 import byline from 'byline';
 
-const hookModule = path.resolve(os.homedir(), 'keymaster.js');
-
 /**
  * The `Connection` class represents a (wait for it)..... connection. In this context, a connection
  * may consist of multiple SSH hops (via ProxyJump directives).
  */
 export class Connection extends EventEmitter2 {
-
-  /**
-   * The name of the SSH config entry that this instance represents.
-   */
-  public name;
 
   /**
    * Has this connection been activated?
@@ -53,13 +46,9 @@ export class Connection extends EventEmitter2 {
 
   private proc;
 
-  public constructor(name: string) {
+  public constructor(public name: string, private config) {
     super();
     Object.defineProperties(this, {
-      name: {
-        value: name,
-        iterable: true,
-      },
       debug: {
         value: Debug(`keymaster:connection:${name}`),
       },
@@ -132,7 +121,7 @@ export class Connection extends EventEmitter2 {
     this.broadcast('Connecting.');
     await this.executeHook();
 
-    this.proc = execa(await this.getSSHBinary(), [
+    this.proc = execa(this.config.ssh.path, [
       this.name,
     ], {
       all: true,
@@ -166,34 +155,24 @@ export class Connection extends EventEmitter2 {
    * of what it is.
    */
   private async executeHook() {
-    if (!await exists(hookModule)) {
+    if (!await exists(this.config.hook.preconnect)) {
+      this.broadcast('No pre-connection hook has been configured.');
       return;
     }
-    return execa('node', [
-      hookModule,
+    const hookProc = execa('node', [
+      this.config.hook.preconnect,
     ], {
       shell: true,
       all: true,
-    })
-      .then((res) => {
-        this.broadcast(`Pre-connect hook (~/keymaster.js) ran successfully with exit code: 0 - ${res.all}`);
-      })
-      .catch(res => {
-        this.broadcast(`Pre-connect hook (~/keymaster.js) failed with exit code: 0 - ${res.all}`);
-      });
-  }
-
-  /**
-   * Returns the absolute path to the user's SSH binary.
-   */
-  private async getSSHBinary() {
-    switch (os.platform()) {
-      case 'darwin':
-        return '/usr/bin/ssh';
-      case 'win32':
-        return 'C:\\Program Files\\Git\\usr\\bin\\ssh.exe';
-      default:
-        throw new Error(`Unknown platform: ${os.platform()}`);
+    });
+    byline(hookProc.all).on('data', data => {
+      this.broadcast(data.toString('utf-8'));
+    });
+    try {
+      await hookProc;
+      this.broadcast(`Pre-connect hook (~/keymaster.js) ran successfully with exit code: 0`);
+    } catch(err) {
+      this.broadcast(`Pre-connect hook (~/keymaster.js) failed with exit code: ${err.exitCode}`);
     }
   }
 

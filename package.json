@@ -5,7 +5,6 @@
   "scripts": {
     "build": "npx tsc",
     "build:watch": "npx tsc --watch",
-    "publish": "npm run build && npm publish --access public",
     "start": "ts-node --prefer-ts-exts bin/keymaster",
     "start:debug": "DEBUG=keymaster,keymaster:* ts-node --prefer-ts-exts bin/keymaster"
   },

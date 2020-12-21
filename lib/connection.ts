@@ -60,7 +60,11 @@ export class Connection extends EventEmitter2 {
   /**
    * Activates the connection (if not already active)
    */
-  public activate() {
+  public async activate() {
+    if (!await exists(this.config.ssh.path)) {
+      this.broadcast(`Configured path to SSH does not exist: ${this.config.ssh.path}`);
+      return;
+    }
     if (this.active || this.destroyed) {
       return;
     }

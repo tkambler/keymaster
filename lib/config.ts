@@ -43,7 +43,7 @@ export async function getGlobalConfig() {
   }
   const conf = await readJson(globalConfigFile, 'utf-8');
   const result = _.cloneDeep(
-    _.merge({}, conf, globalDefaults)
+    _.merge({}, globalDefaults, conf)
   );
   result.hook.preconnect = untildify(result.hook.preconnect);
   return result;

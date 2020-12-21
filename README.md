@@ -4,6 +4,12 @@
 
 > "I am the Keymaster! The Destructor is coming. Gozer the Traveler, the Destroyer."
 
+## Show, Don't Tell
+
+![Keymaster](assets/keymaster.gif)
+
+## What is it?
+
 Keymaster is a terminal utility for managing SSH tunnels. It runs in the foreground and presents you with an interface with which you can interactively enable or disable SSH tunnels at will. If and when network errors occur, connections are automatically restored.
 
 [Secure Pipes](https://www.opoet.com/pyro/index.php) is an excellent, GUI-based tool that provides similar functionality for users of MacOS (such as myself). While I am a fan of this tool, I wanted something CLI-based that would provide a consistent experience for users of MacOS, Linux, and Windows. I also wanted a tool that did not require extra tunnel configuration apart from what is already in the user's `~/.ssh/config` file. Necessity is the mother of invention, so here we are.
@@ -52,10 +58,6 @@ Host jupiter
     ProxyJump mars
     LocalForward 4000 127.0.0.1:4000
 ```
-
-## Show, Don't Tell
-
-![Keymaster](assets/keymaster.gif)
 
 ## What Remains to be Done
 

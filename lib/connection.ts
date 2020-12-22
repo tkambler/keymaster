@@ -126,6 +126,7 @@ export class Connection extends EventEmitter2 {
     await this.executeHook();
 
     this.proc = execa(this.config.ssh.path, [
+      '-T', // Disable pseudoTTY allocation
       this.name,
     ], {
       all: true,

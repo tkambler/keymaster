@@ -14,6 +14,7 @@ const globalDefaults = {
     path: (() => {
       switch (os.platform()) {
         case 'darwin':
+        case 'linux':
           return '/usr/bin/ssh';
         case 'win32':
           return 'C:\\Program Files\\Git\\usr\\bin\\ssh.exe';

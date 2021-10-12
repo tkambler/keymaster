@@ -62,10 +62,13 @@ export class Interface {
     const items = config
       .filter(row => row.param === 'Host')
       .filter(row => {
+        const dynamicForward = (row.config || []).find(conf => {
+          return conf.param && conf.param.includes('DynamicForward');
+        });
         const localForward = (row.config || []).find(conf => {
           return conf.param && conf.param.includes('LocalForward');
         });
-        if (!localForward) {
+        if (!dynamicForward && !localForward) {
           return false;
         }
         const ignore = (row.config || []).find(conf => {
